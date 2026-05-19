@@ -32,7 +32,7 @@ This repository documents a fully operational home lab built to SOC engineering 
 graph TD
     Internet((Internet)) -->|Dynamic Public IP| ATTModem["AT&T Modem<br/>(IP Passthrough)"]
     ATTModem --> SophosFW["Sophos Firewall<br/>Qotom Q555G6<br/>Port2: WAN"]
-    SophosFW -->|Port1 LAN Trunk<br/>192.168.1.1/24| Switch["TP-Link TL-SG105E<br/>Smart Managed Switch"]
+    SophosFW -->|Port1 LAN Trunk<br/>192.168.*.*/24| Switch["TP-Link TL-SG105E<br/>Smart Managed Switch"]
     Switch -->|Port2 Access Trunk<br/>VLAN80 untagged| AP["WiFi AP<br/>(VLAN80 Subnet)"]
     Switch -->|Port3 Trunk<br/>VLANs 1 10 30 40| ProxNIC0["Proxmox NIC0<br/>vmbr0 (VLAN-Aware)"]
     Switch -->|Port4 SPAN Destination| ProxNIC1["Proxmox USB NIC<br/>vmbr1 (Promiscuous)"]
@@ -51,7 +51,7 @@ graph TD
         
         vmbr0 -->|VLAN10| SO
         vmbr0 -->|VLAN30| Kali
-        vmbr0 -->|VLAN40| Meta
+        vmbr0 -->|VLAN40| Metasploit
         vmbr1 --> SO
     end
 
