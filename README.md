@@ -54,72 +54,51 @@ graph TD
 
 ### Network Segmentation Model
 
-INTERNET
-                          │
-                          ▼
-                ┌─────────────────────┐
-                │   Edge Router/Modem │
-                │   (ISP Connection)  │
-                └──────────┬──────────┘
-                           │
-                           ▼
-        ┌──────────────────────────────────────┐
-        │   Stateful Firewall (NGFW)           │
-        │  ┌────────────────────────────────┐  │
-        │  │ LAN Interface (Production)    │  │
-        │  │ VLAN 5: SOC/Monitoring       │  │
-        │  │ VLAN 10: IoT/Isolated         │  │
-        │  │ VLAN 15: Attack Simulation    │  │
-        │  │ VLAN 20: Victim Environment   │  │
-        │  │ VLAN 25: Trusted Wireless     │  │
-        │  └────────────────────────────────┘  │
-        └──────────────┬───────────────────────┘
-                       │ 802.1Q Trunk
-                       ▼
-  ┌────────────────────────────────────────────┐
-  │   Managed Switch (Layer 2+)                │
-  │  ┌──────────────────────────────────────┐  │
-  │  │ Port 1: Firewall Trunk              │  │
-  │  │ Port 2: Access Port (WiFi AP)       │  │
-  │  │ Port 3: Hypervisor Trunk            │  │
-  │  │ Port 4: SPAN Mirror Destination     │  │
-  │  │ Port 5: Reserved                     │  │
-  │  └──────────────────────────────────────┘  │
-  │  SPAN: Ports 1,2 → Port 4                 │
-  └───┬─────────────────────┬──────────────────┘
-      │                     │
-      ▼                     ▼
+graph TD
+    %% Define Nodes
+    Internet((Internet)) --> Edge["Edge Router / Modem<br/>(ISP Bridge Mode)"]
+    Edge --> NGFW["Stateful Firewall (NGFW)<br/>VLANs: 5, 10, 15, 20, 25"]
+    
+    subgraph Core_Switch [Managed Switch - Layer 2+]
+        P1["Port 1: Firewall Trunk"]
+        P2["Port 2: Access Port (WiFi AP)"]
+        P3["Port 3: Hypervisor Trunk"]
+        P4["Port 4: SPAN Destination"]
+    end
+    
+    NGFW -->|802.1Q Trunk| P1
+    
+    subgraph Hypervisor [Hypervisor Platform - Type 1]
+        B0["Bridge 0: Production / Trunk"]
+        B1["Bridge 1: Out-of-Band (SPAN)"]
+        
+        subgraph VM1 [VM 1: NSM Sensor]
+            V1_Mgmt["NIC0: Management<br/>(VLAN 5)"]
+            V1_Sniff["NIC1: Sniffing<br/>(Promiscuous)"]
+        end
+        
+        subgraph VM2 [VM 2: Attack Simulation]
+            V2_NIC["NIC0: Attack Lab<br/>(VLAN 15)"]
+        end
+        
+        subgraph VM3 [VM 3: Vulnerable Target]
+            V3_NIC["NIC0: Victim Lab<br/>(VLAN 20)"]
+        end
+    end
 
-┌─────────────────────────────────────────────────────┐
-│      Hypervisor Platform (Type 1)                   │
-│  ┌───────────────────────────────────────────────┐  │
-│  │ Bridge 0: Production + VLAN Trunk            │  │
-│  │ Bridge 1: Out-of-Band Monitoring (SPAN)     │  │
-│  └───────────────────────────────────────────────┘  │
-│                                                      │
-│  ┌──────────────────────────────────────────────┐  │
-│  │ VM 1: NSM Sensor                             │  │
-│  │  ├─ NIC0 → Management (VLAN 5)             │  │
-│  │  └─ NIC1 → Sniffing (Promiscuous)           │  │
-│  │  Resources: 4 vCPU, 16GB RAM, 300GB Storage │  │
-│  └──────────────────────────────────────────────┘  │
-│                                                      │
-│  ┌──────────────────────────────────────────────┐  │
-│  │ VM 2: Attack Simulation Platform             │  │
-│  │  └─ NIC0 → Attack Lab (VLAN 15)             │  │
-│  └──────────────────────────────────────────────┘  │
-│                                                      │
-│  ┌──────────────────────────────────────────────┐  │
-│  │ VM 3: Intentionally Vulnerable Target        │  │
-│  │  └─ NIC0 → Victim Network (VLAN 20)         │  │
-│  └──────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────┘
-TRAFFIC FLOW LEGEND:
-═══════════════════════════════════════════════════════
-Management Traffic:   VLAN 5 → NSM Management Interface
-SPAN Mirror Traffic:  Switch Port Mirroring → NSM Sniffing Interface
-Attack Traffic:       VLAN 15 → VLAN 20 (Controlled & Monitored)
-Blocked Traffic:      VLAN 15/20 ✗→ Production Networks
+    %% Network Connections
+    P3 --- B0
+    P4 -.->|SPAN Mirror Matrix| B1
+    
+    B0 --> V1_Mgmt
+    B1 --> V1_Sniff
+    B0 --> V2_NIC
+    B0 --> V3_NIC
+
+    %% Style Adjustments
+    style Internet fill:#2b2b2b,stroke:#fff,stroke-width:2px;
+    style NGFW fill:#1a3a5f,stroke:#fff,color:#fff;
+    style P4 fill:#b33a3a,stroke:#fff,color:#fff;
 
 ---
 
