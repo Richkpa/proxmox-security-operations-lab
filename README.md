@@ -31,22 +31,22 @@ This repository documents a fully operational home lab built to SOC engineering 
 ```mermaid
 graph TD
     Internet((Internet)) -->|Dynamic Public IP| ATTModem["AT&T Modem<br/>(IP Passthrough)"]
-    ATTModem --> SophosFW["Sophos Firewall<br/>Qotom Q555G6<br/>Port2: WAN"]
-    SophosFW -->|Port1 LAN Trunk<br/>192.168.*.*/24| Switch["TP-Link TL-SG105E<br/>Smart Managed Switch"]
+    ATTModem --> SophosFW["Sophos Firewall<br/>Qotom Mini PC<br/>Port2: WAN"]
+    SophosFW -->|Port1 LAN Trunk<br/>192.168.*.*/24| Switch["TP-Link<br/>Smart Managed Switch"]
     Switch -->|Port2 Access Trunk<br/>VLAN80 untagged| AP["WiFi AP<br/>(VLAN80 Subnet)"]
-    Switch -->|Port3 Trunk<br/>VLANs 1 10 30 40| ProxNIC0["Proxmox NIC0<br/>vmbr0 (VLAN-Aware)"]
+    Switch -->|Port3 Trunk<br/>VLANs 1, 10, 30, 40| ProxNIC0["Proxmox NIC0<br/>vmbr0 (VLAN-Aware)"]
     Switch -->|Port4 SPAN Destination| ProxNIC1["Proxmox USB NIC<br/>vmbr1 (Promiscuous)"]
     
-    subgraph Proxmox_VE [Proxmox VE 8.x - pvesoc]
+    subgraph Proxmox_VE [Proxmox VE 9.x]
         vmbr0["Linux Bridge vmbr0<br/>VLAN-Aware (nic0)"]
         vmbr1["Linux Bridge vmbr1<br/>SPAN Traffic Ingest (USB NIC)"]
         ProxNIC0 --- vmbr0
         ProxNIC1 --- vmbr1
         
         subgraph VMs
-            SO["VM100: Security Onion 3.0<br/>net0: vmbr0 tag=10 (Mgmt)<br/>net1: vmbr1 (Sniffing)"]
-            Kali["VM101: Kali Linux<br/>net0: vmbr0 tag=30 (Attack)"]
-            Meta["VM300: Metasploitable 2<br/>net0: vmbr0 tag=40 (Victim)"]
+            SO["VM10: Security Onion 3.0<br/>net0: vmbr0 tag=10 (Mgmt)<br/>net1: vmbr1 (Sniffing)"]
+            Kali["VM30: Kali Linux<br/>net0: vmbr0 tag=30 (Attack)"]
+            Meta["VM40: Metasploitable 2<br/>net0: vmbr0 tag=40 (Victim)"]
         end
         
         vmbr0 -->|VLAN10| SO
