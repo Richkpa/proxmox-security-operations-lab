@@ -2,12 +2,10 @@
 
 ![Terraform](https://img.shields.io/badge/IaC-Terraform-623CE4?logo=terraform)
 ![Proxmox](https://img.shields.io/badge/Hypervisor-Proxmox-E57000?logo=proxmox)
-![Security Onion](https://img.shields.io/badge/NSM-Security%20Onion%203.0-00A98F)
-![Sophos](https://img.shields.io/badge/Firewall-Sophos%20Home-blue)
+![Security Onion](https://img.shields.io/badge/NSM-Security%20Onion%203.x-00A98F)
+![Sophos](https://img.shields.io/badge/Firewall-Sophos%20XG-blue)
 
 **A production-grade hybrid physical-virtual SOC environment demonstrating advanced network defense, threat detection engineering, and Infrastructure as Code automation.**
-
-**Quick Links:** [Architecture Diagram](#network-architecture-diagram) | [Deep-Dive Analysis](#deep-dive-technical-analysis--design-rationales) | [Threat Simulation Guide](#lab-execution-guide-end-to-end-threat-simulation) | [Terraform Code](terraform/) | [Deployment Notes](#deployment-notes--troubleshooting)
 
 ---
 
@@ -18,9 +16,43 @@ This repository documents a fully operational home lab built to SOC engineering 
 **Business Value Proposition:**
 - **Threat Detection Engineering:** Real-time intrusion detection via Security Onion using Zeek and Suricata correlation against live attack traffic.
 - **Network Segmentation Strategy:** Multi-zone architecture isolating production, SOC infrastructure, attack simulation, and vulnerable victim environments with explicit deny-by-default policies.
-- **Zero-Trust Enforcement:** Firewall rules that prevent lateral movement from compromised attack or victim segments while maintaining full visibility through hardware SPAN mirroring.
+- **Zero-Trust Enforcement:** Firewall rules that prevent lateral movement from compromised segments while maintaining full visibility through hardware SPAN mirroring.
 - **Operational Automation:** Terraform-managed VMs eliminating configuration drift and enabling repeatable SOC deployments.
 - **Hands-On IR Workflow:** Complete attack → detect → triage lifecycle with MITRE ATT&CK mapping and forensic documentation.
+
+---
+
+## Network Architecture Diagram
+
+### High-Level Topology
+
+```mermaid
+graph TD
+    Internet((Internet)) -->|WAN| ISPModem["ISP Modem<br/>(Bridge Mode)"]
+    ISPModem --> Firewall["Next-Gen Firewall<br/>(Multi-Zone)"]
+    Firewall -->|Trunk| Switch["Managed Switch<br/>(802.1Q VLAN)"]
+    Switch -->|Access| AP["Wireless AP"]
+    Switch -->|Trunk| Hypervisor["Hypervisor Node"]
+    Switch -->|SPAN| Hypervisor
+    
+    subgraph Virtualization_Layer [Virtualization Platform]
+        Bridge0["Management Bridge<br/>(VLAN-Aware)"]
+        Bridge1["Monitor Bridge<br/>(Promiscuous)"]
+        
+        subgraph VMs
+            NSM["VM: NSM Platform<br/>Mgmt + Sniffing Interfaces"]
+            Attacker["VM: Red Team Platform"]
+            Target["VM: Vulnerable Target"]
+        end
+        
+        Bridge0 --> NSM
+        Bridge0 --> Attacker
+        Bridge0 --> Target
+        Bridge1 --> NSM
+    end
+```
+
+### Network Segmentation Model
 
 ---
 
