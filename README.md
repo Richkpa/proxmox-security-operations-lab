@@ -147,4 +147,24 @@ Blocked Traffic:      VLAN 30/40 ✗→ Production Networks
 - Priority 5: Lab Containment        → DROP all traffic from attack/victim to production
 - Priority 6: Default Deny           → Explicit deny-all at bottom of rule stack
 
+**Design Rationale:**
+
+**Controlled Attack Surface:** Attack simulation traffic is explicitly permitted to vulnerable targets, generating realistic threat telemetry for detection validation.
+
+**Victim Containment:** Post-compromise, the victim environment is completely isolated from production networks and SOC infrastructure, demonstrating defense-in-depth.
+
+**Attack Lab Isolation:** The red team platform cannot reach production assets, preventing accidental lateral movement during testing.
+
+**Zero-Trust NAT:** Internal zones do not perform address translation between each other, maintaining source IP integrity for forensic analysis.
+
+---
+
+### 2. SPAN Port Mirroring – Out-of-Band Detection
+
+**Traffic Capture Architecture:**
+
+The managed switch employs port mirroring (SPAN) to duplicate all traffic from critical network segments (firewall trunk + wireless AP) to a dedicated monitoring port. This port connects to a dedicated network interface on the hypervisor, bypassing the production data path entirely.
+
+**Traffic Flow:**
+
 
