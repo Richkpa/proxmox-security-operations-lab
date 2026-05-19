@@ -54,7 +54,9 @@ graph TD
 
 ### Network Segmentation Model
 
+```mermaid
 graph TD
+
     %% Define Nodes
     Internet((Internet)) --> Edge["Edge Router / Modem<br/>(ISP Bridge Mode)"]
     Edge --> NGFW["Stateful Firewall (NGFW)<br/>VLANs: 5, 10, 15, 20, 25"]
@@ -99,6 +101,7 @@ graph TD
     style Internet fill:#2b2b2b,stroke:#fff,stroke-width:2px;
     style NGFW fill:#1a3a5f,stroke:#fff,color:#fff;
     style P4 fill:#b33a3a,stroke:#fff,color:#fff;
+```
 
 ---
 
