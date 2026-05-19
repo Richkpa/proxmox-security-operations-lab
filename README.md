@@ -153,19 +153,6 @@ Blocked Egress:       Victim (VLAN40) ✗→ SOC (VLAN10), LAN, WiFi
 ![Firewall Rules](docs/images/firewall-policies1.png)
 ![Firewall Rules](docs/images/firewall-policies2.png)
 ![Firewall Rules](docs/images/firewall-policies3.png)
-Rule 2  (Lab_to_Internet)        : Security_Onion_Lab → WAN  [Accept]
-Rule 4  (Wifi_to_LAN_Mgmt)       : LAN_PRIVATE → LAN (HTTPS, SSH) [Accept]
-Rule 5  (LAN_to_Lab)             : LAN → LAN, LAN_PRIVATE, Security_Onion_Lab [Accept]
-Rule 6  (Allow LAN to Internet)  : LAN, LAN_PRIVATE → WAN [Accept]
-Rule 8  (Wifi_to_Lab)            : LAN_PRIVATE → Security_Onion_Lab [Accept]
-Rule 10 (MyPC_to_Prox_Server)    : LAN_PRIVATE → LAN (HTTPS, SSH, TCP) [Accept]
-Rule 11 (Attack_Lab_to_Main)     : ATTACK_LAB → LAN, Security_Onion_Lab, Main_LAN_Subnet [DROP]
-Rule 12 (Attack_Lab_to_wifi)     : ATTACK_LAB → LAN_PRIVATE [DROP]
-Rule 13 (Attack_to_Victim)       : ATTACK_LAB → Victim_Lab [ACCEPT]
-Rule 14 (Victim_to_SOC)          : Victim_Lab → Security_Onion_Lab [DROP]
-Rule 15 (Victim_to_LAN)          : Victim_Lab → LAN, LAN_PRIVATE [DROP]
-Rule 16 (Victim_to_WAN)          : Victim_Lab → WAN [DROP]
-Rule 17 (Default Drop)           : Any → Any [DROP]
 
 **Design Rationale:**
 
@@ -177,13 +164,13 @@ Rule 17 (Default Drop)           : Any → Any [DROP]
 
 **NAT Policy Hardening:** An `Internal_No_NAT` policy blocks NAT between internal zones, ensuring source IP fidelity in logs.
 
-**Note on Gateway Pingability:** From the Attack Lab, you may be able to ping the Sophos firewall's interface IPs (e.g., 192.168.10.1) because the firewall's own addresses are not covered by the DROP rules that target network objects. However, actual device IPs (like Metasploitable at 192.168.40.200 or a WiFi laptop at 192.168.80.53) are unreachable, confirming the intended isolation.
+**Note on Gateway Pingability:** From the Attack Lab, you may be able to ping the Sophos firewall's interface IPs (e.g., 192.168.100.1) because the firewall's own addresses are not covered by the DROP rules that target network objects. However, actual device IPs (like Metasploitable at 192.168.*.* or a WiFi laptop at 192.168.*.*) are unreachable, confirming the intended isolation.
 
 ---
 
 ### 2. SPAN / Port Mirroring – Out-of-Band Detection
 
-The TP-Link TL-SG105E switch mirrors all ingress and egress traffic on Ports 1 (firewall trunk) and 2 (WiFi AP) to a dedicated destination (Port 4). This port connects to Proxmox's secondary USB NIC, bridged to `vmbr1`, and fed directly into Security Onion's promiscuous sniffing interface (`net1`).
+The TP-Link switch mirrors all ingress and egress traffic on Ports 1 (firewall trunk) and 2 (WiFi AP) to a dedicated destination (Port 4). This port connects to Proxmox's secondary USB NIC, bridged to `vmbr1`, and fed directly into Security Onion's promiscuous sniffing interface (`net1`).
 
 **Why This Works for the Allowed Attack Flow:**
 
