@@ -5,22 +5,22 @@
 ![Security Onion](https://img.shields.io/badge/NSM-Security%20Onion%203.0-00A98F)
 ![Sophos](https://img.shields.io/badge/Firewall-Sophos%20Home-blue)
 
-**A production-grade hybrid physical-virtual SOC environment demonstrating advanced network defense, threat detection engineering, and Infrastructure as Code automation.**
+**A production-grade hybrid physical‑virtual SOC environment demonstrating advanced network defense, threat detection engineering, and Infrastructure as Code automation.**
 
-**Quick Links:** [Architecture Diagram](#network-architecture-diagram) | [Deep-Dive Analysis](#deep-dive-technical-analysis--design-rationales) | [Threat Simulation Guide](#lab-execution-guide-end-to-end-threat-simulation) | [Terraform Code](terraform/) | [Screenshots](docs/screenshots/) | [Deployment Notes](#deployment-notes--troubleshooting)
+**Quick Links:** [Architecture Diagram](#network-architecture-diagram) | [Deep‑Dive Analysis](#deep-dive-technical-analysis--design-rationales) | [Threat Simulation Guide](#lab-execution-guide-end-to-end-threat-simulation) | [Terraform Code](terraform/) | [Screenshots](docs/screenshots/) | [Deployment Notes](#deployment-notes--troubleshooting)
 
 ---
 
 ## Executive Summary
 
-This repository documents a fully operational home lab built to SOC engineering standards. It proves practical competency in network security monitoring (NSM), zero-trust segmentation, out-of-band traffic analysis, and automated infrastructure deployment—skills directly transferable to enterprise blue team and detection engineering roles.
+This repository documents a fully operational home lab built to SOC engineering standards. It proves practical competency in network security monitoring (NSM), zero‑trust segmentation, out‑of‑band traffic analysis, and automated infrastructure deployment—skills directly transferable to enterprise blue team and detection engineering roles.
 
 **Business Value Proposition:**
-- **Threat Detection Engineering:** Real-time intrusion detection via Security Onion 3.0 using Zeek and Suricata correlation against live attack traffic.
-- **Network Segmentation Strategy:** Multi-zone architecture isolating production, SOC infrastructure, attack simulation, and vulnerable victim environments with explicit deny-by-default policies.
-- **Zero-Trust Enforcement:** Firewall rules that prevent lateral movement from compromised attack or victim segments while maintaining full visibility through hardware SPAN mirroring.
-- **Operational Automation:** Terraform-managed VMs eliminating configuration drift and enabling repeatable SOC deployments.
-- **Hands-On IR Workflow:** Complete attack → detect → triage lifecycle with MITRE ATT&CK mapping and forensic documentation.
+- **Threat Detection Engineering:** Real‑time intrusion detection via Security Onion 3.0 using Zeek and Suricata correlation against live attack traffic.
+- **Network Segmentation Strategy:** Multi‑zone architecture isolating production, SOC infrastructure, attack simulation, and vulnerable victim environments with explicit deny‑by‑default policies.
+- **Zero‑Trust Enforcement:** Firewall rules that prevent lateral movement from compromised attack or victim segments while maintaining full visibility through hardware SPAN mirroring.
+- **Operational Automation:** Terraform‑managed VMs eliminating configuration drift and enabling repeatable SOC deployments.
+- **Hands‑On IR Workflow:** Complete attack → detect → triage lifecycle with MITRE ATT&CK mapping and forensic documentation.
 
 ---
 
