@@ -67,11 +67,11 @@ INTERNET
         │   Stateful Firewall (NGFW)           │
         │  ┌────────────────────────────────┐  │
         │  │ LAN Interface (Production)    │  │
-        │  │ VLAN 10: SOC/Monitoring       │  │
-        │  │ VLAN 20: IoT/Isolated         │  │
-        │  │ VLAN 30: Attack Simulation    │  │
-        │  │ VLAN 40: Victim Environment   │  │
-        │  │ VLAN 80: Trusted Wireless     │  │
+        │  │ VLAN 5: SOC/Monitoring       │  │
+        │  │ VLAN 10: IoT/Isolated         │  │
+        │  │ VLAN 15: Attack Simulation    │  │
+        │  │ VLAN 20: Victim Environment   │  │
+        │  │ VLAN 25: Trusted Wireless     │  │
         │  └────────────────────────────────┘  │
         └──────────────┬───────────────────────┘
                        │ 802.1Q Trunk
@@ -99,27 +99,27 @@ INTERNET
 │                                                      │
 │  ┌──────────────────────────────────────────────┐  │
 │  │ VM 1: NSM Sensor                             │  │
-│  │  ├─ NIC0 → Management (VLAN 10)             │  │
+│  │  ├─ NIC0 → Management (VLAN 5)             │  │
 │  │  └─ NIC1 → Sniffing (Promiscuous)           │  │
 │  │  Resources: 4 vCPU, 16GB RAM, 300GB Storage │  │
 │  └──────────────────────────────────────────────┘  │
 │                                                      │
 │  ┌──────────────────────────────────────────────┐  │
 │  │ VM 2: Attack Simulation Platform             │  │
-│  │  └─ NIC0 → Attack Lab (VLAN 30)             │  │
+│  │  └─ NIC0 → Attack Lab (VLAN 15)             │  │
 │  └──────────────────────────────────────────────┘  │
 │                                                      │
 │  ┌──────────────────────────────────────────────┐  │
 │  │ VM 3: Intentionally Vulnerable Target        │  │
-│  │  └─ NIC0 → Victim Network (VLAN 40)         │  │
+│  │  └─ NIC0 → Victim Network (VLAN 20)         │  │
 │  └──────────────────────────────────────────────┘  │
 └──────────────────────────────────────────────────────┘
 TRAFFIC FLOW LEGEND:
 ═══════════════════════════════════════════════════════
-Management Traffic:   VLAN 10 → NSM Management Interface
+Management Traffic:   VLAN 5 → NSM Management Interface
 SPAN Mirror Traffic:  Switch Port Mirroring → NSM Sniffing Interface
-Attack Traffic:       VLAN 30 → VLAN 40 (Controlled & Monitored)
-Blocked Traffic:      VLAN 30/40 ✗→ Production Networks
+Attack Traffic:       VLAN 15 → VLAN 20 (Controlled & Monitored)
+Blocked Traffic:      VLAN 15/20 ✗→ Production Networks
 
 ---
 
@@ -132,11 +132,11 @@ Blocked Traffic:      VLAN 30/40 ✗→ Production Networks
 | Zone | VLAN | Purpose | Trust Level |
 |------|------|---------|-------------|
 | Production | 1 | Primary user network | High |
-| SOC/Monitoring | 10 | Security infrastructure | Critical |
-| Attack Lab | 30 | Red team simulation | Untrusted |
-| Victim Lab | 40 | Vulnerable targets | Untrusted |
-| Wireless | 80 | Trusted wireless clients | Medium |
-| IoT | 20 | Smart devices | Low |
+| SOC/Monitoring | 5 | Security infrastructure | Critical |
+| Attack Lab | 15 | Red team simulation | Untrusted |
+| Victim Lab | 20 | Vulnerable targets | Untrusted |
+| Wireless | 25 | Trusted wireless clients | Medium |
+| IoT | 10 | Smart devices | Low |
 
 **Firewall Policy Framework:**
 
