@@ -62,7 +62,7 @@ graph TD
 ### Detailed ASCII Diagram
 
 ![Firewall Rules](docs/images/networkdiagram.png)
-![Firewall Rules](docs/images/networkdiagram1.png)
+![Firewall Rules](docs/images/networkdiagram4.png)
 INTERNET
                               │
                               ▼
