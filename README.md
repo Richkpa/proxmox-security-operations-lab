@@ -90,4 +90,35 @@ INTERNET
       │                     │
       ▼                     ▼
 
+┌─────────────────────────────────────────────────────┐
+│      Hypervisor Platform (Type 1)                   │
+│  ┌───────────────────────────────────────────────┐  │
+│  │ Bridge 0: Production + VLAN Trunk            │  │
+│  │ Bridge 1: Out-of-Band Monitoring (SPAN)     │  │
+│  └───────────────────────────────────────────────┘  │
+│                                                      │
+│  ┌──────────────────────────────────────────────┐  │
+│  │ VM 1: NSM Sensor                             │  │
+│  │  ├─ NIC0 → Management (VLAN 10)             │  │
+│  │  └─ NIC1 → Sniffing (Promiscuous)           │  │
+│  │  Resources: 4 vCPU, 16GB RAM, 300GB Storage │  │
+│  └──────────────────────────────────────────────┘  │
+│                                                      │
+│  ┌──────────────────────────────────────────────┐  │
+│  │ VM 2: Attack Simulation Platform             │  │
+│  │  └─ NIC0 → Attack Lab (VLAN 30)             │  │
+│  └──────────────────────────────────────────────┘  │
+│                                                      │
+│  ┌──────────────────────────────────────────────┐  │
+│  │ VM 3: Intentionally Vulnerable Target        │  │
+│  │  └─ NIC0 → Victim Network (VLAN 40)         │  │
+│  └──────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────┘
+TRAFFIC FLOW LEGEND:
+═══════════════════════════════════════════════════════
+Management Traffic:   VLAN 10 → NSM Management Interface
+SPAN Mirror Traffic:  Switch Port Mirroring → NSM Sniffing Interface
+Attack Traffic:       VLAN 30 → VLAN 40 (Controlled & Monitored)
+Blocked Traffic:      VLAN 30/40 ✗→ Production Networks
+
 
