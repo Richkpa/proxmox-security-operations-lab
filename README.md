@@ -32,10 +32,10 @@ This repository documents a fully operational home lab built to SOC engineering 
 graph TD
     Internet((Internet)) -->|Dynamic Public IP| ATTModem["AT&T Modem<br/>(IP Passthrough)"]
     ATTModem --> SophosFW["Sophos Firewall<br/>Qotom Q555G6<br/>Port2: WAN"]
-    SophosFW -->|Port1: LAN Trunk<br/>192.168.1.1/24| Switch["TP-Link TL-SG105E<br/>Smart Managed Switch"]
-    Switch -->|Port2: Access Trunk<br/>VLAN80 untagged| AP["WiFi AP<br/>(VLAN80 Subnet)"]
-    Switch -->|Port3: Trunk (VLAN1,10,30,40)| ProxNIC0["Proxmox NIC0<br/>vmbr0 (VLAN-Aware)"]
-    Switch -->|Port4: SPAN Destination| ProxNIC1["Proxmox USB NIC<br/>vmbr1 (Promiscuous)"]
+    SophosFW -->|Port1 LAN Trunk<br/>192.168.1.1/24| Switch["TP-Link TL-SG105E<br/>Smart Managed Switch"]
+    Switch -->|Port2 Access Trunk<br/>VLAN80 untagged| AP["WiFi AP<br/>(VLAN80 Subnet)"]
+    Switch -->|Port3 Trunk<br/>VLANs 1 10 30 40| ProxNIC0["Proxmox NIC0<br/>vmbr0 (VLAN-Aware)"]
+    Switch -->|Port4 SPAN Destination| ProxNIC1["Proxmox USB NIC<br/>vmbr1 (Promiscuous)"]
     
     subgraph Proxmox_VE [Proxmox VE 8.x - pvesoc]
         vmbr0["Linux Bridge vmbr0<br/>VLAN-Aware (nic0)"]
@@ -57,77 +57,3 @@ graph TD
 
     Switch --- SPANLogic{{"Port Mirroring<br/>Source: Port1, Port2<br/>Destination: Port4"}}
     SPANLogic -.->|Copies all Port1/2 traffic| ProxNIC1
-
-    Detailed ASCII Diagram
-                                   INTERNET
-                                  │
-                                  ▼
-                        ┌─────────────────────┐
-                        │   AT&T Fiber Modem  │
-                        │  (IP Passthrough)   │
-                        └──────────┬──────────┘
-                                   │
-                                   │ WAN (Dynamic Public IP)
-                                   ▼
-                ┌──────────────────────────────────────┐
-                │  Sophos XG Firewall (Qotom Q555G6)   │
-                │  ┌────────────────────────────────┐  │
-                │  │ Port1 (LAN): 192.168.1.1/24   │  │
-                │  │ VLAN10: 192.168.10.1/24 (SOC) │  │
-                │  │ VLAN20: 192.168.20.1/24 (IoT) │  │
-                │  │ VLAN30: 192.168.30.1/24 (ATK) │  │
-                │  │ VLAN40: 192.168.40.1/24 (VIC) │  │
-                │  │ VLAN80: 192.168.80.1/24 (WiFi)│  │
-                │  └────────────────────────────────┘  │
-                └──────────────┬───────────────────────┘
-                               │ Trunk (802.1Q Tagged)
-                               ▼
-          ┌────────────────────────────────────────────┐
-          │   TP-Link TL-SG105E (Managed Switch)       │
-          │  ┌──────────────────────────────────────┐  │
-          │  │ Port 1: Trunk (VLAN 1,10,30,40,80)   │  │
-          │  │ Port 2: Access WiFi AP (VLAN 80)     │  │
-          │  │ Port 3: Trunk to Proxmox (VLANs)     │  │
-          │  │ Port 4: SPAN Mirror Destination      │  │
-          │  │ Port 5: Reserved                     │  │
-          │  └──────────────────────────────────────┘  │
-          │  SPAN Config: Ports 1,2 → Port 4          │
-          └───┬─────────────────────┬──────────────────┘
-              │                     │
-     Port 3   │                     │ Port 4 (SPAN Stream)
-              ▼                     ▼
-┌─────────────────────────────────────────────────────┐
-│      Dell OptiPlex 3040 (Proxmox VE 9.1.11)         │
-│  ┌───────────────────────────────────────────────┐  │
-│  │ vmbr0 (nic0) ←─ Port 3 (VLAN-aware bridge)   │  │
-│  │ vmbr1 (USB NIC) ←─ Port 4 (Promiscuous)      │  │
-│  └───────────────────────────────────────────────┘  │
-│                                                      │
-│  ┌──────────────────────────────────────────────┐  │
-│  │ VM 100: Security Onion 3.0.0                 │  │
-│  │  ├─ net0 → vmbr0.10 (192.168.10.x)          │  │
-│  │  │   Management Interface (SSH/WebUI)        │  │
-│  │  └─ net1 → vmbr1 (Promiscuous Mode)         │  │
-│  │      Sniffing Interface (Zeek/Suricata)     │  │
-│  │  Resources: 4 vCPU, 16GB RAM, 300GB Storage │  │
-│  └──────────────────────────────────────────────┘  │
-│                                                      │
-│  ┌──────────────────────────────────────────────┐  │
-│  │ VM 101: Kali Linux (Attack Platform)         │  │
-│  │  └─ net0 → vmbr0.30 (192.168.30.x)          │  │
-│  └──────────────────────────────────────────────┘  │
-│                                                      │
-│  ┌──────────────────────────────────────────────┐  │
-│  │ VM 300: Metasploitable 2 (Victim)            │  │
-│  │  └─ net0 → vmbr0.40 (192.168.40.x)          │  │
-│  └──────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────┘
-
-TRAFFIC FLOW LEGEND:
-═══════════════════════════════════════════════════════
-Management Traffic:   vmbr0.10 → Security Onion net0
-SPAN Mirror Traffic:  Switch Port 4 → USB NIC → vmbr1 → Security Onion net1
-Attack Traffic:       Kali (VLAN30) → Metasploitable (VLAN40) [allowed]
-Blocked Egress:       Victim (VLAN40) ✗→ SOC (VLAN10), LAN, WiFi
-
-Deep Dive Technical Analysis & Design Rationales
