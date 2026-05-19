@@ -61,8 +61,8 @@ graph TD
 
 ### Detailed ASCII Diagram
 
-![Firewall Rules](docs/images/networkDiagram1.png)
-![Firewall Rules](docs/images/networkDiagram2.png)
+![Firewall Rules](docs/images/networkdiagram.png)
+![Firewall Rules](docs/images/networkdiagram1.png)
 INTERNET
                               │
                               ▼
@@ -102,7 +102,7 @@ INTERNET
           ▼                     ▼
 
 ┌─────────────────────────────────────────────────────┐
-│      Dell OptiPlex 3040 (Proxmox VE 9.1.*)         │
+│      Dell OptiPlex (Proxmox VE 9.1.*)         │
 │  ┌───────────────────────────────────────────────┐  │
 │  │ vmbr0 (nic0) ←─ Port 3 (VLAN-aware bridge)   │  │
 │  │ vmbr1 (USB NIC) ←─ Port 4 (Promiscuous)      │  │
