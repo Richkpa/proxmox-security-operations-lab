@@ -150,6 +150,9 @@ Blocked Egress:       Victim (VLAN40) ✗→ SOC (VLAN10), LAN, WiFi
 
 **Firewall Rules (Top-Down Logic):**
 
+![Firewall Rules](docs/images/firewall-policies1.png)
+![Firewall Rules](docs/images/firewall-policies2.png)
+![Firewall Rules](docs/images/firewall-policies3.png)
 Rule 2  (Lab_to_Internet)        : Security_Onion_Lab → WAN  [Accept]
 Rule 4  (Wifi_to_LAN_Mgmt)       : LAN_PRIVATE → LAN (HTTPS, SSH) [Accept]
 Rule 5  (LAN_to_Lab)             : LAN → LAN, LAN_PRIVATE, Security_Onion_Lab [Accept]
