@@ -16,7 +16,7 @@
 This repository documents a fully operational home lab built to SOC engineering standards. It proves practical competency in network security monitoring (NSM), zero-trust segmentation, out-of-band traffic analysis, and automated infrastructure deployment—skills directly transferable to enterprise blue team and detection engineering roles.
 
 **Business Value Proposition:**
-- **Threat Detection Engineering:** Real-time intrusion detection via Security Onion 3.0 using Zeek and Suricata correlation against live attack traffic.
+- **Threat Detection Engineering:** Real-time intrusion detection via Security Onion using Zeek and Suricata correlation against live attack traffic.
 - **Network Segmentation Strategy:** Multi-zone architecture isolating production, SOC infrastructure, attack simulation, and vulnerable victim environments with explicit deny-by-default policies.
 - **Zero-Trust Enforcement:** Firewall rules that prevent lateral movement from compromised attack or victim segments while maintaining full visibility through hardware SPAN mirroring.
 - **Operational Automation:** Terraform-managed VMs eliminating configuration drift and enabling repeatable SOC deployments.
@@ -30,33 +30,30 @@ This repository documents a fully operational home lab built to SOC engineering 
 
 ```mermaid
 graph TD
-    Internet((Internet)) -->|Dynamic Public IP| ATTModem["AT&T Modem<br/>(IP Passthrough)"]
-    ATTModem --> SophosFW["Sophos Firewall<br/>Qotom Mini PC<br/>Port2: WAN"]
-    SophosFW -->|Port1 LAN Trunk<br/>192.168.*.*/24| Switch["TP-Link<br/>Smart Managed Switch"]
-    Switch -->|Port2 Access<br/>VLAN80 untagged| AP["WiFi AP<br/>(VLAN80 Subnet)"]
-    Switch -->|Port3 Trunk<br/>VLANs 1 10 30 40| ProxNIC0["Proxmox NIC0<br/>vmbr0 (VLAN-Aware)"]
-    Switch -->|Port4 SPAN Destination| ProxNIC1["Proxmox USB NIC<br/>vmbr1 (Promiscuous)"]
+    Internet((Internet)) -->|Dynamic Public IP| ISPModem["ISP Gateway<br/>(Bridge Mode)"]
+    ISPModem --> EdgeFW["Next-Gen Firewall<br/>(Edge Security Node)"]
+    EdgeFW -->|Core LAN Trunk| Switch["Layer 2 Managed Switch"]
+    Switch -->|VLAN Untagged| AP["Wireless AP<br/>(User Subnet Zone)"]
+    Switch -->|VLAN Trunk| ProxNIC0["Hypervisor NIC0<br/>vmbr0 (VLAN-Aware)"]
+    Switch -->|SPAN Destination| ProxNIC1["Dedicated Tap/SPAN NIC<br/>vmbr1 (Promiscuous)"]
     
-    subgraph Proxmox_VE [Proxmox VE 9.x - pvesoc]
-        vmbr0["Linux Bridge vmbr0<br/>VLAN-Aware (nic0)"]
-        vmbr1["Linux Bridge vmbr1<br/>SPAN Traffic Ingest (USB NIC)"]
+    subgraph Hypervisor_Platform [Enterprise Hypervisor Node]
+        vmbr0["Virtual Bridge vmbr0<br/>VLAN-Aware"]
+        vmbr1["Virtual Bridge vmbr1<br/>Passive Packet Ingest"]
         ProxNIC0 --- vmbr0
         ProxNIC1 --- vmbr1
         
-        subgraph VMs
-            SO["VM100: Security Onion 3.0<br/>net0: vmbr0 tag=10 (Mgmt)<br/>net1: vmbr1 (Sniffing)"]
-            Kali["VM101: Kali Linux<br/>net0: vmbr0 tag=30 (Attack)"]
-            Meta["VM300: Metasploitable 2<br/>net0: vmbr0 tag=40 (Victim)"]
+    subgraph Security_Lab_VMs
+            SO["VM: NSM Sensor / Platform<br/>net0: Management Plane<br/>net1: Promiscuous Sniffing Interface"]
+            Kali["VM: Adversary Emulation node"]
+            Meta["VM: Target / Vulnerable Endpoints"]
         end
         
-        vmbr0 -->|VLAN10| SO
-        vmbr0 -->|VLAN30| Kali
-        vmbr0 -->|VLAN40| Meta
+        vmbr0 --> SO
+        vmbr0 --> Kali
+        vmbr0 --> Meta
         vmbr1 --> SO
     end
-
-    Switch --- SPANLogic{{"Port Mirroring<br/>Source: Port1, Port2<br/>Destination: Port4"}}
-    SPANLogic -.->|Copies all Port1/2 traffic| ProxNIC1
 ```
 
 ### Detailed ASCII Diagram

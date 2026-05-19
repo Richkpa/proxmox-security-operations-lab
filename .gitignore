@@ -1,0 +1,9 @@
+# Local variable values (Contains real passwords!)
+*.tfvars
+*.tfvars.json
+
+# Ignore local Terraform state and working directories
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
