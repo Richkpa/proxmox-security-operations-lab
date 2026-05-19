@@ -58,5 +58,3 @@ graph TD
     Switch --- SPANLogic{{"Port Mirroring<br/>Source: Port1, Port2<br/>Destination: Port4"}}
     SPANLogic -.->|Copies all Port1/2 traffic| ProxNIC1
 
----
-## Detailed ASCII Diagram
