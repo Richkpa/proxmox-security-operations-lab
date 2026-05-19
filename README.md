@@ -140,11 +140,11 @@ Blocked Traffic:      VLAN 30/40 ✗→ Production Networks
 
 **Firewall Policy Framework:**
 
-Priority 1: SOC Internet Access    → NSM sensors require threat feed updates
-Priority 2: Management Access      → Administrative access from trusted networks
-Priority 3: Inter-Zone Production  → Controlled communication between trusted zones
-Priority 4: Attack→Victim Flow     → Permit attack traffic for detection testing
-Priority 5: Lab Containment        → DROP all traffic from attack/victim to production
-Priority 6: Default Deny           → Explicit deny-all at bottom of rule stack
+- Priority 1: SOC Internet Access    → NSM sensors require threat feed updates
+- Priority 2: Management Access      → Administrative access from trusted networks
+- Priority 3: Inter-Zone Production  → Controlled communication between trusted zones
+- Priority 4: Attack→Victim Flow     → Permit attack traffic for detection testing
+- Priority 5: Lab Containment        → DROP all traffic from attack/victim to production
+- Priority 6: Default Deny           → Explicit deny-all at bottom of rule stack
 
 
