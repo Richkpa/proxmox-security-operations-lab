@@ -61,6 +61,8 @@ graph TD
 
 ### Detailed ASCII Diagram
 
+![Firewall Rules](docs/images/networkDiagram1.png)
+![Firewall Rules](docs/images/networkDiagram2.png)
 INTERNET
                               │
                               ▼
@@ -72,7 +74,7 @@ INTERNET
                                │ WAN (Dynamic Public IP)
                                ▼
             ┌──────────────────────────────────────┐
-            │  Sophos XG Firewall (Qotom Q555G6)   │
+            │  Sophos XG Firewall (Qotom Mini PC)   │
             │  ┌────────────────────────────────┐  │
             │  │ Port1 (LAN): 192.168.1.0/24   │  │
             │  │ VLAN10: 192.168.10.0/24 (SOC) │  │
@@ -121,7 +123,7 @@ INTERNET
 │  └──────────────────────────────────────────────┘  │
 │                                                      │
 │  ┌──────────────────────────────────────────────┐  │
-│  │ VM 40: Metasploitable 2 (Victim)            │  │
+│  │ VM 40: Metasploitable (Victim)            │  │
 │  │  └─ net0 → vmbr0.40 (192.168.40.x)          │  │
 │  └──────────────────────────────────────────────┘  │
 └──────────────────────────────────────────────────────┘
