@@ -121,4 +121,23 @@ SPAN Mirror Traffic:  Switch Port Mirroring → NSM Sniffing Interface
 Attack Traffic:       VLAN 30 → VLAN 40 (Controlled & Monitored)
 Blocked Traffic:      VLAN 30/40 ✗→ Production Networks
 
+---
+
+## Deep Dive Technical Analysis & Design Rationales
+
+### 1. Network Isolation & Zero-Trust Enforcement
+
+**Network Segmentation Model:**
+
+| Zone | VLAN | Purpose | Trust Level |
+|------|------|---------|-------------|
+| Production | 1 | Primary user network | High |
+| SOC/Monitoring | 10 | Security infrastructure | Critical |
+| Attack Lab | 30 | Red team simulation | Untrusted |
+| Victim Lab | 40 | Vulnerable targets | Untrusted |
+| Wireless | 80 | Trusted wireless clients | Medium |
+| IoT | 20 | Smart devices | Low |
+
+**Firewall Policy Framework:**
+
 
