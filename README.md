@@ -396,7 +396,8 @@ A disabled-by-default firewall rule serves as a kill switch: enabling it instant
 This project demonstrates hands-on competency in detection engineering, defensive architecture, and security automation.
 
 - **GitHub:** `Richkpa`
-- **LinkedIn:** `https://www.linkedin.com/in/richlue-kpakor/`
+- **LinkedIn:** [![LinkedIn](https://shields.io)](https://www.linkedin.com/in/richlue-kpakor/)
+``
 
 ---
 
