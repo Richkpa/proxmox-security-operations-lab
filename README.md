@@ -309,6 +309,7 @@ Download full packet capture for offline analysis in Wireshark or NetworkMiner.
 **Issue:** VMs cannot reach gateway after VLAN implementation
 
 **Resolution:** Enable VLAN awareness on virtual bridge and configure allowed VLAN list in bridge configuration file. Restart networking service and VMs.
+![TP-Link 802.1Q VLAN Membership Matrix](proxmox-security-operations-lab\docs\images\switchvlan.png)
 
 ### 2. Firewall Object Definitions
 
