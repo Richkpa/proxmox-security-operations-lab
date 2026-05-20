@@ -193,7 +193,9 @@ resource "hypervisor_vm" "nsm_sensor" {
   network_device { }               # Promiscuous sniffing (no IP)
 }
 ```
+The resulting sensor configuration is shown below:
 
+![Security Onion Hardware](docs/images/proxmox-so-hardware.png)
 ---
 
 ## Lab Execution Guide: End-to-End Threat Simulation
@@ -392,9 +394,8 @@ A disabled-by-default firewall rule serves as a kill switch: enabling it instant
 
 This project demonstrates hands-on competency in detection engineering, defensive architecture, and security automation.
 
-- **GitHub:** `[Your GitHub Username]`
-- **LinkedIn:** `[Your LinkedIn Profile]`
-- **Portfolio:** `[Your Website]`
+- **GitHub:** `Richkpa`
+- **LinkedIn:** `https://www.linkedin.com/in/richlue-kpakor/`
 
 ---
 
