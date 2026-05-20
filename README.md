@@ -290,19 +290,16 @@ Query connection logs for full session metadata:
 ## ## Defensive Engineering: Sophos Firewall Remediation
 
 To enforce a zero-trust network segmentation strategy, a series of hardware-enforced access control rules were deployed within the Sophos XG Firewall to disrupt the attack lifecycle and isolate untrusted lab zones.
+
 ![Sophos Firewall Policies](./docs/images/firewall-policies1.png)
 ![Sophos Firewall Policies](./docs/images/firewall-policies2.png)
 ![Sophos Firewall Policies](./docs/images/firewall-policies3.png)
 
-### 1. Inbound Access Control Rule (Mitigate VSFTPD Exploitation)
+### 1. Inbound Access Control Rule (Intentionally Allowed for VSFTPD Exploitation)
 ![Sophos Firewall Policies](./docs/images/attack-to-victimallow.png)
 
 ### 2. Egress Segmentation Rule (Prevent Lateral Movement)
 ![Sophos Firewall Policies](./docs/images/victim-to-soclabBlocked.png)
-
-**4. PCAP Forensics**
-
-Download full packet capture for offline analysis in Wireshark or NetworkMiner.
 
 ---
 
