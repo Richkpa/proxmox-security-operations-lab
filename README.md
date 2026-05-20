@@ -321,7 +321,9 @@ Download full packet capture for offline analysis in Wireshark or NetworkMiner.
 * [cite_start]**Attacker Node:** Kali Linux (`192.168.30.100` / VLAN 30) [cite: 106, 195]
 * [cite_start]**Entry Vector:** `vsftpd` Backdoor Remote Service Exploitation (CVE-2011-2523) [cite: 185, 394]
 * [cite_start]**Detection Method:** Out-of-band SPAN Port Mirroring $\rightarrow$ NSM Suricata Alert Correlation [cite: 124, 240, 394]
-* [cite_start]**Containment Status:** Isolated to specific victim network via hardware-enforced rules 
+* [cite_start]**Containment Status:** Isolated to specific victim network via hardware-enforced rules
+
+[cite_start]An unauthenticated remote attacker issued an explicit service command handshake over FTP (Port 21), which spawned an immediate dynamic upgrade to an active command shell[cite: 178, 185]. [cite_start]Post-exploitation, the attacker successfully initialized a Meterpreter Command & Control (C2) interactive console wrapper, dropped down into the native Linux system terminal shell, and performed lateral reconnaissance via ICMP ping sweeps to bypass network boundaries and discover internal management assets[cite: 180, 185, 192].
 
 ```
 
