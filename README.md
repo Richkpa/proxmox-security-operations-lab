@@ -264,6 +264,20 @@ Expected Detections:
 - Network reconnaissance signatures
 - Exploitation attempt indicators
 - Post-compromise C2 beaconing
+![Security Onion 3 Hunt Dashboard Timeline](./docs/images/seconion-timeline-screenshot.png)
+![Security Onion 3 Hunt Dashboard Timeline](./docs/images/seconion-timeline-screenshot1.png)
+
+Alerts
+![Security Onion 3 Hunt Dashboard Timeline](./docs/images/seconion-timeline-alert.png)
+
+Rule Capture: ET INFO Executable and linking format (ELF) file download
+![Security Onion 3 Hunt Dashboard Timeline](./docs/images/seconion-timeline-alertexe.png)
+
+Rule Capture: GPL ATTACK_RESPONSE id check returned root
+![Security Onion 3 Hunt Dashboard Timeline](./docs/images/seconion-timeline-alertatt.png)
+
+Rule Capture: ET HUNTING curl User-Agent to Dotted Quad
+![Security Onion 3 Hunt Dashboard Timeline](./docs/images/seconion-timeline-alertcure.png)
 
 **3. Protocol Analysis**
 
