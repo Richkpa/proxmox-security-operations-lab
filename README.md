@@ -287,7 +287,7 @@ Query connection logs for full session metadata:
 - Service banners
 - Certificate fingerprints
 
-## ## Defensive Engineering: Sophos Firewall Remediation
+## Defensive Engineering: Sophos Firewall Remediation
 
 To enforce a zero-trust network segmentation strategy, a series of hardware-enforced access control rules were deployed within the Sophos XG Firewall to disrupt the attack lifecycle and isolate untrusted lab zones.
 
