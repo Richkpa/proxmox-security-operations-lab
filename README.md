@@ -220,6 +220,7 @@ nmap -sS -p 21,22,23,80,443 --reason <victim_target>
 ```
 
 Expected: Vulnerable services exposed (FTP, Telnet, HTTP)
+![Security Onion Hardware](docs/images/nmap-scan.png)
 
 **Step 3: Exploitation & Dynamic Session Upgrades**
 
