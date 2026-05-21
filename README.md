@@ -205,7 +205,8 @@ resource "hypervisor_vm" "nsm_sensor" {
 }
 ```
 The resulting sensor configuration is shown below:
-⚠️ Both Kali and Metasploitable are kept entirely powered off when active testing is not taking place.
+> [!WARNING]
+> **Operational Risk Management Protocol** > Both the **Kali Linux (Attacker)** and **Metasploitable (Victim)** instances are strictly kept in a **powered-off state** at all times when active testing or detection engineering simulation is not taking place. This minimizes the passive attack surface of the underlying physical hypervisor.
 
 ![Security Onion Hardware](docs/images/proxmox-so-hardware.png)
 ---
