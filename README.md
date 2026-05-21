@@ -5,11 +5,6 @@
 ![Security Onion](https://img.shields.io/badge/NSM-Security%20Onion%203.x-00A98F)
 ![Sophos](https://img.shields.io/badge/Firewall-Sophos%20XG-blue)
 
-> [!IMPORTANT]
-> **LAB TESTING & DISCLAIMER CONSTRAINTS**
-> * **Simulation Scope:** All attack simulations were conducted exclusively against intentionally vulnerable systems housed within fully isolated network segments.
-> * **Firewall Rules:** Explicit, strict firewall allowances were enforced solely to facilitate traffic between designated lab subnets.
-> * **Production Safety:** No production networks, unauthorized targets, or live real-world malicious infrastructure were interacted with or compromised at any point during this project.
 
 **A enterprise-scale hybrid physical-virtual SOC environment demonstrating advanced network defense, threat detection engineering, and Infrastructure as Code automation.**
 
@@ -27,6 +22,13 @@ This repository documents a fully operational home lab built to SOC engineering 
 - **Zero-Trust Enforcement:** Firewall rules that prevent lateral movement from compromised segments while maintaining full visibility through hardware SPAN mirroring.
 - **Operational Automation:** Terraform-managed VMs eliminating configuration drift and enabling repeatable SOC deployments.
 - **Hands-On IR Workflow:** Complete attack → detect → triage lifecycle with MITRE ATT&CK mapping and forensic documentation.
+
+
+> [!IMPORTANT]
+> **LAB TESTING & DISCLAIMER CONSTRAINTS**
+> * **Simulation Scope:** All attack simulations were conducted exclusively against intentionally vulnerable systems housed within fully isolated network segments.
+> * **Firewall Rules:** Explicit, strict firewall allowances were enforced solely to facilitate traffic between designated lab subnets.
+> * **Production Safety:** No production networks, unauthorized targets, or live real-world malicious infrastructure were interacted with or compromised at any point during this project.
 
 ---
 
