@@ -5,12 +5,11 @@
 ![Security Onion](https://img.shields.io/badge/NSM-Security%20Onion%203.x-00A98F)
 ![Sophos](https://img.shields.io/badge/Firewall-Sophos%20XG-blue)
 
-> **⚠️ Educational & Portfolio Use Only**  
-> This repository documents a controlled home laboratory environment.  
-> All attack simulations were conducted against intentionally vulnerable systems  
-> in isolated network segments with explicit firewall allowances.  
-> No production systems, unauthorized targets, or real-world malicious activity occurred.  
-> The techniques shown are for defensive detection engineering education.
+> [!IMPORTANT]
+> **LAB TESTING & DISCLAIMER CONSTRAINTS**
+> * **Simulation Scope:** All attack simulations were conducted exclusively against intentionally vulnerable systems housed within fully isolated network segments.
+> * **Firewall Rules:** Explicit, strict firewall allowances were enforced solely to facilitate traffic between designated lab subnets.
+> * **Production Safety:** No production networks, unauthorized targets, or live real-world malicious infrastructure were interacted with or compromised at any point during this project.
 
 **A enterprise-scale hybrid physical-virtual SOC environment demonstrating advanced network defense, threat detection engineering, and Infrastructure as Code automation.**
 
