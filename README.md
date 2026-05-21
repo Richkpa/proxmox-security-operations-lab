@@ -385,11 +385,19 @@ A disabled-by-default firewall rule serves as a kill switch: enabling it instant
 
 ## Future Roadmap
 
-- Threat intelligence feed integration (STIX/TAXII)
-- Centralized SIEM with multi-source log correlation
-- SOAR platform for automated response workflows
-- Purple team continuous validation framework
-- Hybrid cloud sensor deployment with secure backhaul
+### Near‑term
+- **STIX/TAXII threat intelligence feed integration** – automated IOC enrichment
+- **SOAR light (TheHive/Cortex)** – playbook for alert enrichment and ticket creation
+- **ML‑based alert triage** – classify Security Onion alerts as TP/FP using historical labels
+
+### Mid‑term
+- **Unsupervised anomaly detection** (isolation forest on Zeek `conn.log`) – catch beaconing, data exfiltration
+- **Purple team automation** – Atomic Red Team + detection coverage heatmap (MITRE ATT&CK)
+- **Hybrid cloud sensor** – deploy Security Onion sensor in Azure, route traffic via WireGuard
+
+### Long‑term
+- **LLM‑assisted investigation** – auto‑summarize alert context from Zeek/PCAP (using local model like Ollama)
+- **Automated incident report generation** – template populated from detection data
 
 ---
 
