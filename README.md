@@ -330,7 +330,6 @@ Query connection logs for full session metadata:
 
 An unauthenticated remote attacker issued an explicit service command handshake over FTP (Port 21), which spawned an immediate dynamic upgrade to an active command shell. Post-exploitation, the attacker successfully initialized a Meterpreter Command & Control (C2) interactive console wrapper, dropped down into the native Linux system terminal shell, and performed lateral reconnaissance via ICMP ping sweeps to bypass network boundaries and discover internal management assets.
 
-```
 
 ---
 
