@@ -14,7 +14,7 @@
 
 ## Executive Summary
 
-This repository documents a fully operational home lab built to SOC engineering standards. It proves practical competency in network security monitoring (NSM), zero-trust segmentation, out-of-band traffic analysis, and automated infrastructure deployment—skills directly transferable to enterprise blue team and detection engineering roles.
+This repository documents a fully operational home lab built to SOC engineering standards. It proves practical competency in network security monitoring (NSM), zero-trust segmentation, out-of-band traffic analysis, and automated infrastructure deployment.
 
 **Business Value Proposition:**
 - **Threat Detection Engineering:** Real-time intrusion detection via Security Onion using Zeek and Suricata correlation against live attack traffic.
@@ -179,7 +179,7 @@ Attack Traffic → Firewall → Switch Trunk →
 
 **Automation Benefits:**
 
-All virtual infrastructure is provisioned using Terraform with a hypervisor-specific provider, ensuring:
+The virtual infrastructures (SOC and Kali) are provisioned using Terraform with a hypervisor-specific provider, ensuring:
 
 - **Configuration Consistency:** Compute resources, storage layout, and network topology defined as code
 - **Drift Detection:** `terraform plan` detects manual configuration changes
@@ -319,9 +319,7 @@ Query connection logs for full session metadata:
 | Execution | T1059 | Shell command execution |
 | C2 | T1071 | Application layer protocol |
 
-**Incident Documentation Template:**
 
-```markdown
 ## Attack Summary
 - **Threat Actor:**  Simulated APT / Red Team Platform
 - **Entry Vector:** Backdoor Remote Service Exploitation
