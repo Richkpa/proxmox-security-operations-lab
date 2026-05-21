@@ -123,11 +123,11 @@ graph TD
 | Zone | VLAN | Purpose | Trust Level |
 |------|------|---------|-------------|
 | Production | 1 | Primary user network | High |
-| SOC/Monitoring | 5 | Security infrastructure | Critical |
-| Attack Lab | 15 | Red team simulation | Untrusted |
-| Victim Lab | 20 | Vulnerable targets | Untrusted |
-| Wireless | 25 | Trusted wireless clients | Medium |
-| IoT | 10 | Smart devices | Low |
+| Private-Network | 5 | Security infrastructure | Critical |
+| TEST-NET-1 | 15 | Red team simulation | Untrusted |
+| TEST-NET-2 | 20 | Vulnerable targets | Untrusted |
+| TEST-NET-3 | 25 | Trusted wireless clients | Medium |
+| TEST-NET-4 | 10 | Smart devices | Low |
 
 **Firewall Policy Framework:**
 
@@ -147,6 +147,10 @@ graph TD
 **Attack Lab Isolation:** The red team platform cannot reach production assets, preventing accidental lateral movement during testing.
 
 **Zero-Trust NAT:** Internal zones do not perform address translation between each other, maintaining source IP integrity for forensic analysis.
+
+To enforce a zero-trust network segmentation strategy, a series of hardware-enforced access control rules were deployed within the Sophos XG Firewall to disrupt the attack lifecycle and isolate untrusted lab zones.
+
+![Sophos Firewall Policies](./docs/images/firewall-policies.png)
 
 ---
 
@@ -201,6 +205,7 @@ resource "hypervisor_vm" "nsm_sensor" {
 }
 ```
 The resulting sensor configuration is shown below:
+⚠️ Both Kali and Metasploitable are kept entirely powered off when active testing is not taking place.
 
 ![Security Onion Hardware](docs/images/proxmox-so-hardware.png)
 ---
@@ -251,7 +256,6 @@ wget http://test-c2.example.com/beacon
 ping -c 3 192.168.x.x
 ```
 ![Metasploit Exploitation and Meterpreter Session Handshaking](./docs/images/kali-terminal-screenshot.png)
-![Metasploit Exploitation and Meterpreter Session Handshaking](./docs/images/kali-terminal-screenshot1.png)
 
 ---
 
@@ -274,8 +278,6 @@ Expected Detections:
 - Network reconnaissance signatures
 - Exploitation attempt indicators
 - Post-compromise C2 beaconing
-![Security Onion 3 Hunt Dashboard Timeline](./docs/images/seconion-timeline-screenshot.png)
-![Security Onion 3 Hunt Dashboard Timeline](./docs/images/seconion-timeline-screenshot1.png)
 
 Alerts
 ![Security Onion 3 Hunt Dashboard Timeline](./docs/images/seconion-timeline-alert.png)
@@ -297,21 +299,12 @@ Query connection logs for full session metadata:
 - Service banners
 - Certificate fingerprints
 
-## Defensive Engineering: Sophos Firewall Remediation
-
-To enforce a zero-trust network segmentation strategy, a series of hardware-enforced access control rules were deployed within the Sophos XG Firewall to disrupt the attack lifecycle and isolate untrusted lab zones.
-
-![Sophos Firewall Policies](./docs/images/firewall-policies1.png)
-![Sophos Firewall Policies](./docs/images/firewall-policies2.png)
-![Sophos Firewall Policies](./docs/images/firewall-policies3.png)
-
 ### 1. Inbound Access Control Rule (Intentionally Allowed for VSFTPD Exploitation)
 ![Sophos Firewall Policies](./docs/images/attack-to-victimallow.png)
 
 ### 2. Egress Segmentation Rule (Prevent Lateral Movement)
 ![Sophos Firewall Policies](./docs/images/victim-to-soclabBlocked.png)
 
----
 
 ### Phase 3 – Incident Response
 
@@ -330,8 +323,8 @@ To enforce a zero-trust network segmentation strategy, a series of hardware-enfo
 ## Attack Summary
 - **Threat Actor:**  Simulated APT / Red Team Platform
 - **Entry Vector:** Backdoor Remote Service Exploitation
-- **Target Asset:** Vulnerable Linux Target (`192.168.x.x`)
-- **Attacker Node:** Kali Linux (`192.168.x.x`)
+- **Target Asset:** Vulnerable Linux Target (`203.0.113.x`)
+- **Attacker Node:** Kali Linux (`198.51.100.x`)
 - **Detection Method:** Out-of-band SPAN Port Mirroring NSM Suricata Alert 
 - **Containment Status:** Isolated to specific victim network via hardware-enforced rules
 
