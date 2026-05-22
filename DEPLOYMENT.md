@@ -55,13 +55,12 @@ This guide provides step-by-step instructions to replicate this security operati
 
 ### Step 1: Physical Topology Assembly
 
----
+```mermaid
 graph TD
-    Modem[ISP Modem] --> FW[Firewall]
-    FW --> Switch[Managed Switch]
+    Modem["ISP Modem"] --> FW["Firewall"]
+    FW --> Switch["Managed Switch"]
 
-    Switch --> AP[WiFi AP - Port 2]
-    Switch --> Serv1[Server - Port 3]
-    Switch --> Serv2[Server Second NIC / SPAN - Port 4]
-    Switch --> Res[Reserved - Port 5]
----
+    Switch --> AP["WiFi AP - Port 2"]
+    Switch --> Serv1["Server - Port 3"]
+    Switch --> Serv2["Server Second NIC / SPAN - Port 4"]
+    Switch --> Res["Reserved - Port 5"]
