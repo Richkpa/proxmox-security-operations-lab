@@ -296,6 +296,9 @@ Docs: https://registry.terraform.io/providers/bpg/proxmox/latest/docs
 
 ## Estimated Timeline
 
+> [!IMPORTANT]
+> **An hour of planning saves a weekend of troubleshooting.**
+
 **Total Deployment Time:** 6-10 hours (can be split across multiple sessions)
 
 | Phase | Time Estimate |
@@ -348,14 +351,17 @@ sha256sum proxmox-ve_8.2-1.iso
 > * **Budget & Scalability:** If you are facing budget constraints, you can easily start small and scale your lab over time. For instance, this deployment initially began with just the firewall appliance, with the hypervisor server and managed switch integrated into the topology as resource demands and budget allowed.
 
 ### Budget Build (~$800)
-Used Dell OptiPlex 5040 (i5, 32GB):  $300
-Qotom Mini PC Firewall (4x GbE):     $250
-TP-Link TL-SG108E (8-port switch):    $50
-USB 3.0 GbE Adapter:                  $20
-TP-Link WiFi AP:                      $100
-Cables & Accessories:                 $30
-──────────────────────────────────────
-Total:                               $750
+### Budget Build (~$800)
+
+| Component | Cost |
+| :--- | :--- |
+| **Used Dell OptiPlex 5040** (i5, 32GB) | $300 |
+| **Qotom Mini PC Firewall** (4x GbE) | $250 |
+| **TP-Link TL-SG108E** (8-port switch) | $50 |
+| **USB 3.0 GbE Adapter** | $20 |
+| **TP-Link WiFi AP** | $100 |
+| **Cables & Accessories** | $30 |
+| **Total:** | **$750** |
 
 ---
 
