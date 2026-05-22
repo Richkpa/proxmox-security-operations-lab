@@ -17,8 +17,7 @@ This guide lists all hardware, software, and skill prerequisites required to bui
 2. [Required Software](#required-software)
 3. [Required Skills](#required-skills)
 4. [Network Requirements](#network-requirements)
-5. [Optional Components](#optional-components)
-6. [Pre-Deployment Checklist](#pre-deployment-checklist)
+5. [Pre-Deployment Checklist](#pre-deployment-checklist)
 
 ---
 
