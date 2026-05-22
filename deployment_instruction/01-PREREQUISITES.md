@@ -237,7 +237,7 @@ Docs: https://registry.terraform.io/providers/bpg/proxmox/latest/docs
 - Ability to assign public IP to downstream device (firewall)
 
 **How to Check:**
-1. Log into ISP modem admin interface (usually `192.168.0.1` or `192.168.1.1`)
+1. Log into ISP modem admin interface
 2. Look for settings labeled:
    - "Bridge Mode"
    - "IP Passthrough"
