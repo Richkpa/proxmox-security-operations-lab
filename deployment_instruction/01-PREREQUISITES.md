@@ -9,7 +9,10 @@
 This guide lists all hardware, software, and skill prerequisites required to build the SOC lab environment.
 
 **Time to review:** 15-30 minutes  
-**Cost estimate:** $800-$1,500 (excluding existing hardware)
+**Cost estimate:** $800-$1,500
+
+> [!IMPORTANT]
+> * **Budget & Scalability:** If you are facing budget constraints, you can easily start small and scale your lab over time. For instance, this deployment initially began with just the firewall appliance, with the hypervisor server and managed switch integrated into the topology as resource demands and budget allowed.
 
 ---
 
@@ -347,9 +350,6 @@ sha256sum proxmox-ve_8.2-1.iso
 ---
 
 ## Cost Breakdown Summary
-
-> [!IMPORTANT]
-> * **Budget & Scalability:** If you are facing budget constraints, you can easily start small and scale your lab over time. For instance, this deployment initially began with just the firewall appliance, with the hypervisor server and managed switch integrated into the topology as resource demands and budget allowed.
 
 ### Budget Build (~$800)
 Used Dell OptiPlex 5040 (i5, 32GB):  $300
