@@ -102,13 +102,13 @@ This guide lists all hardware, software, and skill prerequisites required to bui
 
 **RAM Allocation Breakdown:**
 
-Security Onion:    16GB (minimum 12GB)
-Kali Linux:         4GB
-Metasploitable:     1GB
-Proxmox Host:       4GB
-Future VMs:         8GB reserve
+- Security Onion:    16GB (minimum 12GB)
+- Kali Linux:         4GB
+- Metasploitable:     1GB
+- Proxmox Host:       4GB
+- Future VMs:         8GB reserve
 ─────────────────────────
-Total:             24GB → 32GB minimum, 64GB recommended
+- Total:             24GB → 32GB minimum, 64GB recommended
 
 #### Additional Network Interface (SPAN Capture)
 
