@@ -37,7 +37,7 @@ This guide provides step-by-step instructions to replicate this security operati
 - **Firewall OS:** Sophos XG Home / pfSense / OPNsense
 - **NSM Platform:** Security Onion 3.x ISO
 - **Attack Platform:** Kali Linux 2024.x ISO
-- **Victim Target:** Metasploitable 2 VMDK
+- **Victim Target:** Metasploitable VMDK
 - **IaC Tooling:** Terraform 1.9+ with hypervisor provider
 - **ISP Connection:** Static or dynamic public IP with port forwarding capability
 
@@ -54,3 +54,29 @@ This guide provides step-by-step instructions to replicate this security operati
 ## Hardware Setup
 
 ### Step 1: Physical Topology Assembly
+
+---
+graph TD
+    %% Nodes
+    Modem([ISP Modem])
+    FW[Firewall]
+    Switch[Managed Switch]
+    AP[WiFi AP]
+    Server[Server]
+    SPAN[Server - Second NIC]
+
+    %% Connections
+    Modem -->|WAN Port| FW
+    FW -->|LAN Port / Port 1| Switch
+    
+    %% Switch Port Breakouts
+    Switch -->|Port 2| AP
+    Switch -->|Port 3| Server
+    Switch -->|Port 4: SPAN| SPAN
+    Switch -.->|Port 5| Reserved[Reserved]
+
+    %% Styling
+    style Modem fill:#f9f,stroke:#333,stroke-width:2px
+    style FW fill:#ff9,stroke:#333,stroke-width:2px
+    style Switch fill:#bbf,stroke:#333,stroke-width:2px
+    style Reserved stroke-dasharray: 5 5
