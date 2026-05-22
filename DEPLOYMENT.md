@@ -57,26 +57,11 @@ This guide provides step-by-step instructions to replicate this security operati
 
 ---
 graph TD
-    %% Nodes
-    Modem([ISP Modem])
-    FW[Firewall]
-    Switch[Managed Switch]
-    AP[WiFi AP]
-    Server[Server]
-    SPAN[Server - Second NIC]
+    Modem[ISP Modem] --> FW[Firewall]
+    FW --> Switch[Managed Switch]
 
-    %% Connections
-    Modem -->|WAN Port| FW
-    FW -->|LAN Port / Port 1| Switch
-    
-    %% Switch Port Breakouts
-    Switch -->|Port 2| AP
-    Switch -->|Port 3| Server
-    Switch -->|Port 4: SPAN| SPAN
-    Switch -.->|Port 5| Reserved[Reserved]
-
-    %% Styling
-    style Modem fill:#f9f,stroke:#333,stroke-width:2px
-    style FW fill:#ff9,stroke:#333,stroke-width:2px
-    style Switch fill:#bbf,stroke:#333,stroke-width:2px
-    style Reserved stroke-dasharray: 5 5
+    Switch --> AP[WiFi AP - Port 2]
+    Switch --> Serv1[Server - Port 3]
+    Switch --> Serv2[Server Second NIC / SPAN - Port 4]
+    Switch --> Res[Reserved - Port 5]
+---
